@@ -6,8 +6,8 @@ simpledash.dashboard(
   title='BuildExecutor',
   templates=[
     simpledash.template(
-      name='kubernetes_service',
-      query='label_values(kubernetes_service:buildbarn_builder_build_executor_operations:irate1m, kubernetes_service)',
+      name='service',
+      query='label_values(service:buildbarn_builder_build_executor_operations:irate1m, service)',
       label='Service name',
       selectionStyle=simpledash.selectMultiple,
     ),
@@ -24,8 +24,8 @@ simpledash.dashboard(
           unit=simpledash.unitOperationsPerSecond,
           targets=[
             simpledash.graphTarget(
-              expr='kubernetes_service:buildbarn_builder_build_executor_operations:irate1m{kubernetes_service=~"$kubernetes_service"}',
-              legendFormat='{{kubernetes_service}}',
+              expr='service:buildbarn_builder_build_executor_operations:irate1m{service=~"$service"}',
+              legendFormat='{{service}}',
             ),
           ],
         ),
@@ -36,7 +36,7 @@ simpledash.dashboard(
           unit=simpledash.unitDurationSeconds,
           targets=[
             simpledash.heatmapTarget(
-              expr='sum(kubernetes_service_le_stage:buildbarn_builder_build_executor_duration_seconds_bucket:irate1m{kubernetes_service=~"$kubernetes_service",stage="%s"}) by (le)' % stage,
+              expr='sum(service_le_stage:buildbarn_builder_build_executor_duration_seconds_bucket:irate1m{service=~"$service",stage="%s"}) by (le)' % stage,
             ),
           ],
         )
@@ -52,7 +52,7 @@ simpledash.dashboard(
           unit=r[2],
           targets=[
             simpledash.heatmapTarget(
-              expr='sum(kubernetes_service_le:buildbarn_builder_build_executor_posix_%s_bucket:irate1m{kubernetes_service=~"$kubernetes_service"}) by (le)' % r[1],
+              expr='sum(service_le:buildbarn_builder_build_executor_posix_%s_bucket:irate1m{service=~"$service"}) by (le)' % r[1],
             ),
           ],
         )
@@ -82,7 +82,7 @@ simpledash.dashboard(
           unit=r[2],
           targets=[
             simpledash.heatmapTarget(
-              expr='sum(kubernetes_service_le:buildbarn_builder_build_executor_file_pool_%s_bucket:irate1m{kubernetes_service=~"$kubernetes_service"}) by (le)' % r[1],
+              expr='sum(service_le:buildbarn_builder_build_executor_file_pool_%s_bucket:irate1m{service=~"$service"}) by (le)' % r[1],
             ),
           ],
         )
@@ -98,7 +98,7 @@ simpledash.dashboard(
           unit=r[3],
           targets=[
             simpledash.heatmapTarget(
-              expr='sum(kubernetes_service_le_operation:buildbarn_builder_build_executor_file_pool_operations_%s_bucket:irate1m{kubernetes_service=~"$kubernetes_service",operation="%s"}) by (le)' % [r[1], r[2]],
+              expr='sum(service_le_operation:buildbarn_builder_build_executor_file_pool_operations_%s_bucket:irate1m{service=~"$service",operation="%s"}) by (le)' % [r[1], r[2]],
             ),
           ],
         )

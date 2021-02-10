@@ -15,25 +15,25 @@ simpledash.dashboard(
   templates=[
     simpledash.template(
       name='ac_backend',
-      query='label_values(kubernetes_service_name_operation:buildbarn_blobstore_blob_access_operations_started:irate1m{name=~"ac.*"}, name)',
+      query='label_values(service_name_operation:buildbarn_blobstore_blob_access_operations_started:irate1m{name=~"ac.*"}, name)',
       label='Action Cache backend',
       selectionStyle=simpledash.selectSingleWithDefault('ac_grpc'),
     ),
     simpledash.template(
       name='cas_backend',
-      query='label_values(kubernetes_service_name_operation:buildbarn_blobstore_blob_access_operations_started:irate1m{name=~"cas.*"}, name)',
+      query='label_values(service_name_operation:buildbarn_blobstore_blob_access_operations_started:irate1m{name=~"cas.*"}, name)',
       label='Content Addressable Storage backend',
       selectionStyle=simpledash.selectSingleWithDefault('cas_grpc'),
     ),
     simpledash.template(
       name='icas_backend',
-      query='label_values(kubernetes_service_name_operation:buildbarn_blobstore_blob_access_operations_started:irate1m{name=~"icas.*"}, name)',
+      query='label_values(service_name_operation:buildbarn_blobstore_blob_access_operations_started:irate1m{name=~"icas.*"}, name)',
       label='Indirect Content Addressable Storage backend',
       selectionStyle=simpledash.selectSingleWithDefault('icas_grpc'),
     ),
     simpledash.template(
-      name='kubernetes_service',
-      query='label_values(kubernetes_service_name_operation:buildbarn_blobstore_blob_access_operations_started:irate1m, kubernetes_service)',
+      name='service',
+      query='label_values(service_name_operation:buildbarn_blobstore_blob_access_operations_started:irate1m, service)',
       label='Service name',
       selectionStyle=simpledash.selectMultiple,
     ),
@@ -49,7 +49,7 @@ simpledash.dashboard(
         unit=simpledash.unitOperationsPerSecond,
         targets=[
           simpledash.graphTarget(
-            expr='sum(kubernetes_service_name_operation:buildbarn_blobstore_blob_access_operations_started:irate1m{kubernetes_service=~"$kubernetes_service",name=~"%s"}) by (operation)' % backend,
+            expr='sum(service_name_operation:buildbarn_blobstore_blob_access_operations_started:irate1m{service=~"$service",name=~"%s"}) by (operation)' % backend,
             legendFormat='{{operation}}',
           ),
         ],
@@ -64,7 +64,7 @@ simpledash.dashboard(
         unit=simpledash.unitOperationsPerSecond,
         targets=[
           simpledash.graphTarget(
-            expr='sum(grpc_code_kubernetes_service_name:buildbarn_blobstore_blob_access_operations_duration_seconds_count:irate1m{kubernetes_service=~"$kubernetes_service",name=~"%s"}) by (grpc_code)' % backend,
+            expr='sum(grpc_code_service_name:buildbarn_blobstore_blob_access_operations_duration_seconds_count:irate1m{service=~"$service",name=~"%s"}) by (grpc_code)' % backend,
             legendFormat='{{grpc_code}}',
           ),
         ],
@@ -79,7 +79,7 @@ simpledash.dashboard(
         unit=simpledash.unitDurationSeconds,
         targets=[
           simpledash.heatmapTarget(
-            expr='sum(kubernetes_service_le_name_operation:buildbarn_blobstore_blob_access_operations_duration_seconds_bucket:irate1m{kubernetes_service=~"$kubernetes_service",name=~"%s",operation="%s"}) by (le)' % [backend, operation],
+            expr='sum(service_le_name_operation:buildbarn_blobstore_blob_access_operations_duration_seconds_bucket:irate1m{service=~"$service",name=~"%s",operation="%s"}) by (le)' % [backend, operation],
           ),
         ],
       ),
@@ -94,7 +94,7 @@ simpledash.dashboard(
         unit=simpledash.unitBytes,
         targets=[
           simpledash.heatmapTarget(
-            expr='sum(kubernetes_service_le_name_operation:buildbarn_blobstore_blob_access_operations_blob_size_bytes_bucket:irate1m{kubernetes_service=~"$kubernetes_service",name=~"%s",operation="%s"}) by (le)' % [backend, operation],
+            expr='sum(service_le_name_operation:buildbarn_blobstore_blob_access_operations_blob_size_bytes_bucket:irate1m{service=~"$service",name=~"%s",operation="%s"}) by (le)' % [backend, operation],
           ),
         ],
       ),
@@ -109,7 +109,7 @@ simpledash.dashboard(
         unit=simpledash.unitNone,
         targets=[
           simpledash.heatmapTarget(
-            expr='sum(kubernetes_service_le_name:buildbarn_blobstore_blob_access_operations_find_missing_batch_size_bucket:irate1m{kubernetes_service=~"$kubernetes_service",name=~"%s"}) by (le)' % backend,
+            expr='sum(service_le_name:buildbarn_blobstore_blob_access_operations_find_missing_batch_size_bucket:irate1m{service=~"$service",name=~"%s"}) by (le)' % backend,
           ),
         ],
       ),

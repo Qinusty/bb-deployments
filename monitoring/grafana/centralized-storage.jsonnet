@@ -28,19 +28,19 @@ simpledash.dashboard(
   templates=[],
   rows=[
     showRetentionRow(
-      title='Per-replica worst shard retention: whether it is safe to restart the other replica',
-      targetMetric='kubernetes_replica_name:buildbarn_blobstore_old_new_current_location_blob_map_last_removed_old_block_insertion_time_seconds:min',
-      targetLegendFormat='{{kubernetes_replica}}',
+      title='Per-instance worst shard retention: whether it is safe to restart the other replica',
+      targetMetric='instance:buildbarn_blobstore_old_new_current_location_blob_map_last_removed_old_block_insertion_time_seconds:min',
+      targetLegendFormat='{{instance}}',
     ),
     showRetentionRow(
-      title='Per-shard best replica retention: amount of data accessible right now',
-      targetMetric='kuberentes_shard_name:buildbarn_blobstore_old_new_current_location_blob_map_last_removed_old_block_insertion_time_seconds:max',
-      targetLegendFormat='{{kubernetes_shard}}',
+      title='Per-instance best replica retention: amount of data accessible right now',
+      targetMetric='instance:buildbarn_blobstore_old_new_current_location_blob_map_last_removed_old_block_insertion_time_seconds:max',
+      targetLegendFormat='{{instance}}',
     ),
     showRetentionRow(
-      title='Per-shard worst replica retention: amount of data to remain accessible if a replica were to crash',
-      targetMetric='kuberentes_shard_name:buildbarn_blobstore_old_new_current_location_blob_map_last_removed_old_block_insertion_time_seconds:min',
-      targetLegendFormat='{{kubernetes_shard}}',
+      title='Per-instance worst replica retention: amount of data to remain accessible if a replica were to crash',
+      targetMetric='instance:buildbarn_blobstore_old_new_current_location_blob_map_last_removed_old_block_insertion_time_seconds:min',
+      targetLegendFormat='{{instance}}',
     ),
 
     simpledash.row(
